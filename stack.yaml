@@ -1,16 +1,15 @@
-resolver: lts-13.26
+resolver: lts-17.6
 
 packages:
 - .
 
 extra-deps:
 - git: https://github.com/purescript/purescript
-  commit: 9cad73ed8ea7df3011032ddbd2f3de5a0c08629c
-- happy-1.19.9
+  commit: 40dd447b2acd51c206c48cf3dcedada1e4b94594
+  subdirs:
+  - .
+  - lib/purescript-cst
 - language-javascript-0.7.0.0
-- network-3.0.1.1
-- these-1.0.1
-- semialign-1
 
 nix:
   enable: false
@@ -21,4 +20,3 @@ flags:
     lib-only: true
   these:
     assoc: false
-    quickcheck: false

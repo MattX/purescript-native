@@ -31,7 +31,7 @@ import Language.PureScript.Names
 import Language.PureScript.Options
 import Language.PureScript.PSString (PSString, mkString)
 import Language.PureScript.Traversals (sndM)
-import qualified Language.PureScript.Constants as C
+import qualified Language.PureScript.Constants.Prim as C
 
 import System.FilePath.Posix ((</>))
 
@@ -50,7 +50,7 @@ moduleToIL
   => Module Ann
   -> Text
   -> m (Text, [Text], [AST], Text, Text)
-moduleToIL (Module _ coms mn _ imps _ foreigns decls) project =
+moduleToIL (Module _ coms mn _ imps _ _ foreigns decls) project =
   do
     ilDecls <- mapM (bindToIL ModuleDecl) decls
     optimized <- traverse (traverse (optimize modName')) ilDecls

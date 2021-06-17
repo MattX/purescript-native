@@ -21,7 +21,7 @@ import Language.PureScript.PSString (PSString, decodeString, mkString)
 import Language.PureScript.CoreImp.AST
 import Language.PureScript.CoreImp.Optimizer.Common hiding (isDict, isDict')
 import Language.PureScript.AST (SourceSpan(..))
-import qualified Language.PureScript.Constants as C
+import qualified Language.PureScript.Constants.Prelude as C
 
 import CodeGen.IL.Common
 import CodeGen.IL.Optimizer.Common

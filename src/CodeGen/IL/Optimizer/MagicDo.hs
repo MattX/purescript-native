@@ -11,7 +11,7 @@ import Data.Text (Text)
 import Language.PureScript.CoreImp.AST
 import Language.PureScript.CoreImp.Optimizer.Common hiding (isDict)
 import Language.PureScript.PSString (PSString, decodeString, mkString)
-import qualified Language.PureScript.Constants as C
+import qualified Language.PureScript.Constants.Prelude as C
 
 import CodeGen.IL.Common (undefinedName, unusedName)
 import CodeGen.IL.Optimizer.Common

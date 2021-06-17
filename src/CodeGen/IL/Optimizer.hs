@@ -16,8 +16,6 @@ import CodeGen.IL.Optimizer.Inliner
 import CodeGen.IL.Optimizer.MagicDo
 import CodeGen.IL.Optimizer.TCO
 
-import qualified Language.PureScript.Constants as C
-
 -- | Apply a series of optimizer passes to simplified IL code
 optimize :: MonadSupply m => AST -> AST -> m AST
 optimize mn il = do

@@ -37,7 +37,7 @@ import Language.PureScript.PSString (PSString, decodeString, mkString)
 import CodeGen.IL.Common
 import CodeGen.IL.Optimizer.TCO (tcoLoop)
 
-import qualified Language.PureScript.Constants as C
+import qualified Language.PureScript.Constants.Prim as C
 
 -- TODO (Christoph): Get rid of T.unpack / pack
 

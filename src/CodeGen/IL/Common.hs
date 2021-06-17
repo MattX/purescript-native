@@ -13,7 +13,7 @@ import qualified Data.Text as T
 import Language.PureScript.Crash
 import Language.PureScript.Names
 
-import qualified Language.PureScript.Constants as C
+import qualified Language.PureScript.Constants.Prim as C
 
 moduleNameToIL :: ModuleName -> Text
 moduleNameToIL (ModuleName mn) =
