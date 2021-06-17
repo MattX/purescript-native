@@ -31,7 +31,7 @@ runTests = do
   let srcDir = outputDir </> "src"
   createDirectory srcDir
 
-  callProcess "git" ["clone", "--branch", "v0.13.8", "--depth", "1", "https://github.com/purescript/purescript.git"]
+  callProcess "git" ["submodule", "update"]
   let passingDir = baseDir </> "purescript" </> "tests" </> "purs" </> "passing"
   passingTestCases <- sort . filter (".purs" `isSuffixOf`) <$> getDirectoryContents passingDir
 
@@ -56,13 +56,14 @@ runTests = do
     setCurrentDirectory outputDir
     copyFile (passingDir </> inputFile) (srcDir </> inputFile)
 
-    let testCaseDir = passingDir </> (takeWhile (/='.') inputFile)
+    let testCaseDir = passingDir </> takeWhile (/='.') inputFile
     testCaseDirExists <- doesDirectoryExist testCaseDir
     when testCaseDirExists $ callProcess "cp" ["-R", testCaseDir, srcDir]
 
     callProcess "rm" ["-rf", "output"]
     callProcess "rm" ["-rf", "Main"]
-    callProcess "spago" ["build"]
+    putStrLn "** Starting Spago Build **"
+    callProcess "spago" ["build", "--very-verbose"]
     --
     -- Run executable file
     --
@@ -71,7 +72,7 @@ runTests = do
     proc <- runProcess ("./" </> "Main") [] Nothing Nothing Nothing (Just outputFile) Nothing
 
     removeFile (srcDir </> inputFile)
-    when testCaseDirExists $ callProcess "rm" ["-rf", srcDir </> (takeWhile (/='.') inputFile)]
+    when testCaseDirExists $ callProcess "rm" ["-rf", srcDir </> takeWhile (/='.') inputFile]
 
   -- TODO: support failing test cases
   --
@@ -116,8 +117,7 @@ fetchPackages = do
   callCommand "sed '$s/\\(}\\)/, backend = \"psgo\"\\1/'  < spago.dhall | dhall format > spago.tmp"
   callCommand "mv spago.tmp spago.dhall"
 
-  mapM (callProcess "spago" . (\p -> ["install", p])) packages
-  return ()
+  mapM_ (callProcess "spago" . (\p -> ["install", p])) packages
 
 -------------------------------------------------------------------------------
 skipped :: [String]

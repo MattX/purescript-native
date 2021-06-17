@@ -21,3 +21,5 @@ core-tests/full-core-docs.md
 .psc-ide-port
 .vscode/
 result
+purescript-tests/
+
