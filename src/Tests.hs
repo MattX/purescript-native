@@ -53,7 +53,6 @@ runTests = do
     -- Compile/build
     --
     putStrLn $ "Compiling test " ++ inputFile ++ " ..."
-    setCurrentDirectory outputDir
     copyFile (passingDir </> inputFile) (srcDir </> inputFile)
 
     let testCaseDir = passingDir </> takeWhile (/='.') inputFile
@@ -62,8 +61,7 @@ runTests = do
 
     callProcess "rm" ["-rf", "output"]
     callProcess "rm" ["-rf", "Main"]
-    putStrLn "** Starting Spago Build **"
-    callProcess "spago" ["build", "--very-verbose"]
+    callProcess "spago" ["build"]
     --
     -- Run executable file
     --
@@ -80,7 +78,6 @@ runTests = do
   -- failingTestCases <- sort . filter (".purs" `isSuffixOf`) <$> getDirectoryContents failing
   --
 
-  setCurrentDirectory baseDir
   putStrLn "PureScript tests finished"
   putStrLn $ "Total tests available: " ++ show (length passingTestCases)
   putStrLn $ "Tests run: " ++ show (length tests)

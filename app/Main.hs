@@ -130,6 +130,7 @@ main = do
   runBuildTool :: Command -> IO ()
   runBuildTool cmd = do
     project <- projectEnv
+    callProcess "go" ["get", T.unpack project <> "/..."]
     case cmd of
       Build -> do
         callProcess "go" ["build", T.unpack project </> modPrefix' </> "Main"]
@@ -189,9 +190,13 @@ writeSupportFiles baseOutpath = do
       let project' = T.unpack project
           outputdir' = tail $ T.unpack outputdir
           modText' = T.replace "$PROJECT" project $ T.decodeUtf8 modText
+          requireLoader = project' </> ffiLoader' <> "@v0.0.0"
           replaceLoader = project' </> ffiLoader' <> "=." </> subdir
+          requireOutput = project' </> modPrefix' <> "@v0.0.0"
           replaceOutput = project' </> modPrefix' <> "=." </> outputdir'
       B.writeFile goModSource $ T.encodeUtf8 modText'
+      callProcess "go" ["mod", "edit", "-require", requireLoader]
+      callProcess "go" ["mod", "edit", "-require", requireOutput]
       callProcess "go" ["mod", "edit", "-replace", replaceLoader]
       callProcess "go" ["mod", "edit", "-replace", replaceOutput]
       callProcess "go" ["clean", "-modcache"]
