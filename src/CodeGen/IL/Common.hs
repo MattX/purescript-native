@@ -56,11 +56,31 @@ properToIL name
 -- | Attempts to find a human-readable name for a symbol, if none has been specified returns the
 -- ordinal value.
 identCharToText :: Char -> Text
-identCharToText 'ṩ' = "_ṩ"
+identCharToText c | c == 'Z' = "ZZ"
 identCharToText c | isAlphaNum c = T.singleton c
 identCharToText '_' = "_"
-identCharToText '\'' = "ꞌ" -- lowercase saltillo
-identCharToText c = error (show (ord c)) -- TODO: should never occur now(?)
+identCharToText '.' = "Zdot"
+identCharToText '$' = "Zdollar"
+identCharToText '~' = "Ztilde"
+identCharToText '=' = "Zeq"
+identCharToText '<' = "Zless"
+identCharToText '>' = "Zgreater"
+identCharToText '!' = "Zbang"
+identCharToText '#' = "Zhash"
+identCharToText '%' = "Zpercent"
+identCharToText '^' = "Zup"
+identCharToText '&' = "Zamp"
+identCharToText '|' = "Zbar"
+identCharToText '*' = "Ztimes"
+identCharToText '/' = "Zdiv"
+identCharToText '+' = "Zplus"
+identCharToText '-' = "Zminus"
+identCharToText ':' = "Zcolon"
+identCharToText '\\' = "Zbslash"
+identCharToText '?' = "Zqmark"
+identCharToText '@' = "Zat"
+identCharToText '\'' = "Zprime"
+identCharToText c = 'Z' `T.cons` T.pack (show (ord c))
 
 moduleProperToIL :: Text -> Text
 moduleProperToIL = T.concatMap identCharToText
